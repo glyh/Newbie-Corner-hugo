@@ -1,3 +1,6 @@
-[submodule "themes/even"]
-	path = themes/even
-	url = https://github.com/olOwOlo/hugo-theme-even.git
+[submodule "themes/CodeIT"]
+	path = themes/CodeIT
+	url = https://github.com/sunt-programator/CodeIT.git
+[submodule "public"]
+	path = public
+	url = git@github.com:glyh/glyh.github.io.git
