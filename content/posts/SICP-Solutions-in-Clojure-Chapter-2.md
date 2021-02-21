@@ -10,9 +10,9 @@ draft: false
 ### Exercise 2.1
 
 ```clojure
-(defn make-rat [n d] 
-  (let [g (gcd n d) nf (/ n g) df (/ d g)] 
-    (if (< df 0) (list (- nf) (- df)) 
+(defn make-rat [n d]
+  (let [g (gcd n d) nf (/ n g) df (/ d g)]
+    (if (< df 0) (list (- nf) (- df))
                       (list nf df) )))
 ```
 
@@ -27,8 +27,8 @@ draft: false
 (def start-segment first)
 (def end-segment second)
 
-(defn midpoint-segment [seg] 
-  (map #(/ (+ (% (start-segment seg)) (% (end-segment seg))) 2) 
+(defn midpoint-segment [seg]
+  (map #(/ (+ (% (start-segment seg)) (% (end-segment seg))) 2)
        [x-point y-point]))
 
 (defn print-point [p] (prn (str "(" (x-point p) ", " (y-point p) ")")))
@@ -41,7 +41,7 @@ draft: false
 ```clojure
 
 ; Implementation 1
-(defn make-rectangle [p1 p2] (list p1 p2)) 
+(defn make-rectangle [p1 p2] (list p1 p2))
 
 (def abs #(if (< % 0) (- %) %))
 (defn diff [f a b] (abs (- (f a) (f b))))
@@ -71,7 +71,7 @@ draft: false
 (car #(% x y)); =>
 (#(% x y) (fn [p q] p)); =>
 ((fn [p q] p) x y); =>
-x 
+x
 
 (defn cdr [z] (z (fn [p q] q)))
 ```
@@ -80,10 +80,10 @@ x
 
 ```clojure
 (defn cons [x y] (int (* (Math/pow 2 x) (Math/pow 3 y))))
-(defn cdr [z] 
+(defn cdr [z]
   (defn iter [z result] (if (= (rem z 3) 0) (recur (/ z 3) (+ result 1))result ))
   (iter z 0))
-(defn car [z] 
+(defn car [z]
   (defn iter [z result] (if (= (rem z 2) 0) (recur (/ z 2) (+ result 1))result ))
   (iter z 0))
 ```
@@ -95,7 +95,7 @@ x
 (fn [f] (fn [x] (f ((zero f) x)))); =>
 (fn [f] (fn [x] (f ((fn [x] x) x)))); =>
 (fn [f] (fn [x] (f x))); =>
-(def one (fn [f] (fn[x] (f x)))); 
+(def one (fn [f] (fn[x] (f x))));
 
 (add-1 one); =>
 (fn [f] (fn [x] (f ((one f) x)))); =>
@@ -130,7 +130,7 @@ width_2 = r_2 - l_2\newline
 width_3 = (r_1+r_2)-(l_1+l_2)=width_1+width_2\newline
 $$
 
-For substraction: 
+For substraction:
 
 $$
 (l_1, r_1) - (l_2, r_2) = (l_1, r_1) + (-r_2, -l_2)\newline
@@ -153,7 +153,7 @@ $$
 (1, 2) \div (3, 4) = (\frac14, \frac23)
 $$
 
-All input intervals have width of 1, but their quotients' width are not the same. 
+All input intervals have width of 1, but their quotients' width are not the same.
 
 ### Exercise 2.10
 
@@ -166,8 +166,8 @@ All input intervals have width of 1, but their quotients' width are not the same
 ### Exercise 2.11
 
 ```clojure
-(defn mul-interval [x y] 
-  (cond (and (>= (lower-bound x) 0) (>= (lower-bound y) 0)) 
+(defn mul-interval [x y]
+  (cond (and (>= (lower-bound x) 0) (>= (lower-bound y) 0))
           (make-interval (* (lower-bound x) (lower-bound y)) (* (upper-bound x) (upper-bound y)))
         (and (>= (lower-bound x) 0) (< (lower-bound y) 0 (upper-bound y)))
           (make-interval (* (upper-bound x) (lower-bound y)) (* (upper-bound x) (upper-bound y)))
@@ -191,13 +191,13 @@ All input intervals have width of 1, but their quotients' width are not the same
   (make-interval (- c w) (+ c w)))
 
 (defn center [i]
-  (/ (+ (lower-bound i) 
-        (upper-bound i)) 
+  (/ (+ (lower-bound i)
+        (upper-bound i))
      2))
 
 (defn width [i]
-  (/ (- (upper-bound i) 
-        (lower-bound i)) 
+  (/ (- (upper-bound i)
+        (lower-bound i))
      2))
 
 (defn make-center-percent [c p] (make-center-width c (* c p)))
@@ -229,36 +229,36 @@ $$
 (defn par2 [r1 r2] (let [one (make-interval 1 1)] (div-interval one (add-interval (div-interval one r1) (div-interval one r2)))))
 ```
 
-The error occurs because $A \div A = (1, 1)$ is not guaranteed in interval calculation. 
+The error occurs because $A \div A = (1, 1)$ is not guaranteed in interval calculation.
 
 ### Exercise 2.15
 
-Yes, she is. Avoiding the same variable invloves into the calculation twice can help us avoid the occasion in Exercise 2.14. 
+Yes, she is. Avoiding the same variable invloves into the calculation twice can help us avoid the occasion in Exercise 2.14.
 
 ### Exercise 2.16
 
-My first thought is that, programming is mostly engineering rather than theory. 
+My first thought is that, programming is mostly engineering rather than theory.
 
-Engineering is always bothered with the complexity of the real world, you should consider the comsumption of resources but in theory you don't. 
+Engineering is always bothered with the complexity of the real world, you should consider the comsumption of resources but in theory you don't.
 
 For example, computer can only approximate e, but in theory you just pick a sign representing it. (Space is limited, however, the information needed to represent e is infinite. )
 
-I don't think "to design an interval-arithmetic package that does not have this shortcoming" is possible. 
+I don't think "to design an interval-arithmetic package that does not have this shortcoming" is possible.
 
-As long as you use one name mutiple times to refers to some variant, the problem in 2.14 will happen. 
+As long as you use one name mutiple times to refers to some variant, the problem in 2.14 will happen.
 
 ### Exercise 2.17
 
 ```clojure
-(defn last-pair [L] 
+(defn last-pair [L]
   (if (nil? (second L)) L (recur (rest L))))
 ```
 
-### Exercise 2.18 
+### Exercise 2.18
 
 ```clojure
-(defn reverse [L] 
-  (if (empty? L) L (concat (reverse (rest L)) (list (first L)))))  
+(defn reverse [L]
+  (if (empty? L) L (concat (reverse (rest L)) (list (first L)))))
 ```
 
 ### Exercise 2.19
@@ -280,7 +280,7 @@ As long as you use one name mutiple times to refers to some variant, the problem
 (cc 100 us-coins)
 (cc 100 unordered-us-coins)
 ```
-The order of the list coins-list doesn't affect the answer produced by cc. 
+The order of the list coins-list doesn't affect the answer produced by cc.
 
 This is because the order of the coins are irrelevant to the plans to change the money.
 
@@ -305,18 +305,18 @@ This is because the order of the coins are irrelevant to the plans to change the
 
 ### Exercise 2.22
 
-The function `cons` kept pushing elemnets to the front of the array. 
+The function `cons` kept pushing elemnets to the front of the array.
 
 ```clojure
 (def square #(* % %))
 (defn square-list [items]
-  (defn iter [things answer] 
-    (if (empty? things) answer 
+  (defn iter [things answer]
+    (if (empty? things) answer
       (recur (rest things) (concat answer (list (square (first things)))))))
   (iter items '()))
 ```
 
-This works for me... Maybe it's only because the call to iter in Scheme gives `nil` as the first element in the list. 
+This works for me... Maybe it's only because the call to iter in Scheme gives `nil` as the first element in the list.
 
 ### Exercise 2.23
 
@@ -325,7 +325,7 @@ This works for me... Maybe it's only because the call to iter in Scheme gives `n
 
 (def for-each [f col] (map f col))
 
-(defn for-each [f col] 
+(defn for-each [f col]
   (if (not (empty? col)) (do (f (first col)) (recur f (rest col)))))
 ```
 
@@ -354,18 +354,18 @@ Graphs are omited.
 ### Exercise 2.27
 
 ```clojure
-(defn deep-reverse [L] 
-  (if (empty? L) L (concat (deep-reverse (rest L)) (list (let [a (first L)] (if (list? a) (deep-reverse a) a))))))  
+(defn deep-reverse [L]
+  (if (empty? L) L (concat (deep-reverse (rest L)) (list (let [a (first L)] (if (list? a) (deep-reverse a) a))))))
 ```
 
 ### Exercise 2.28
 
 ```clojure
-(defn fringe [n] 
-  (if (empty? n) 
+(defn fringe [n]
+  (if (empty? n)
     n
-    (concat (let [a (first n)] (if (list? a) (fringe a) (list a)) ) 
-            (fringe (rest n))))) 
+    (concat (let [a (first n)] (if (list? a) (fringe a) (list a)) )
+            (fringe (rest n)))))
 ```
 
 ### Exercise 2.29
@@ -381,29 +381,29 @@ Graphs are omited.
   (if (list? m) (+ (total-weight (structure (left-branch m))) (total-weight (structure (right-branch m)))) m))
 (defn balanced?
   ([m] (>= (balanced? m true)))
-  ([m success] 
-    (if (list? m) 
-      (let [bl (balanced (structure (left-branch m))) br (balanced (structure (right-branch m)))] 
-        (if (and success (>= bl 0) (>= br 0) (= (* bl (length (left-branch m))) (* br (length (right-branch m))))) 
+  ([m success]
+    (if (list? m)
+      (let [bl (balanced (structure (left-branch m))) br (balanced (structure (right-branch m)))]
+        (if (and success (>= bl 0) (>= br 0) (= (* bl (length (left-branch m))) (* br (length (right-branch m)))))
           (+ bl br) -1))
-      m))) 
+      m)))
 ```
 
-Only 4 functions, `left-branch`, `right-branch`, `length` and `structure`. 
+Only 4 functions, `left-branch`, `right-branch`, `length` and `structure`.
 
-(Actually in the Clojure implementation there's nothing to change. 
+(Actually in the Clojure implementation there's nothing to change.
 
 ### Exercise 2.30
 
 ```clojure
-(defn square-tree [n] 
+(defn square-tree [n]
   (if (list? n) (list (square-tree (first n)) (square-tree (second n))) (* n n)))
 
 (defn square-tree [n]
   (if (list? n) (map square-tree n) (* n n)))
 ```
 
-The second implementation is better, since it can deal with non-binary trees. 
+The second implementation is better, since it can deal with non-binary trees.
 
 ### Exercise 2.31
 
@@ -418,13 +418,13 @@ The second implementation is better, since it can deal with non-binary trees.
 (defn subsets [s]
   (if (empty? s)
     '(())
-    (let [s' (subsets (rest s)) a (first s)] 
+    (let [s' (subsets (rest s)) a (first s)]
       (concat s' (map #(conj % a) s')))))
 ```
 
-The application keeps reduce the size of a problem until it can be solve in constant time, 
+The application keeps reduce the size of a problem until it can be solve in constant time,
 
-then merge the solutions of sub problems until we have the solution of the original problem. 
+then merge the solutions of sub problems until we have the solution of the original problem.
 
 ### Exercise 2.33
 
@@ -439,7 +439,7 @@ then merge the solutions of sub problems until we have the solution of the origi
 ### Exercise 2.34
 
 ```clojure
-(defn horner-eval [x Cs] 
+(defn horner-eval [x Cs]
   (reduce (fn [cur C_i] (+ (* cur x) C_i)) 0 (reverse Cs)))
 (horner-eval 2 '(1 3 0 5 0 1))
 ```
@@ -461,13 +461,13 @@ then merge the solutions of sub problems until we have the solution of the origi
 ### Exercise 2.37
 
 ```clojure
-(defn dot-product [v w] 
+(defn dot-product [v w]
   (reduce + 0 (map * v w)))
 
-(defn matrix-*-vector [m v] 
+(defn matrix-*-vector [m v]
   (map #(dot-product % v) m))
 
-(defn transpose [m] 
+(defn transpose [m]
   (accumulate-n conj [] m))
 
 (defn matrix*matrix [m n]
@@ -486,13 +486,13 @@ Clojure only has fold-left, rather than fold-right.
 (((nil 1) 2) 3)
 ```
 
-The result of `fold-left` and `fold-right` are the same if and only if the associative law works for the function f. 
+The result of `fold-left` and `fold-right` are the same if and only if the associative law works for the function f.
 
 ### Exercise 2.39
 
 ```clojure
 (def fold-left reduce)
-(defn fold-right [f init seq] 
+(defn fold-right [f init seq]
   (if (empty? seq) init (f (first seq) (fold-right f init (rest seq)))))
 
 (defn reverse [seq] (fold-right #(conj %2 %1) [] seq))
@@ -518,7 +518,7 @@ The result of `fold-left` and `fold-right` are the same if and only if the assoc
   (->> (unique-pairs n)
        (filter #(let [a (second %) b (first %)] (< a b (- n a b))))
        (map #(let [a (second %) b (first %)] (list a b (- n a b))))))
-(defn triples-le [n] 
+(defn triples-le [n]
   (if (= n 3) () (concat (triples-le (- n 1)) (triples-e n))))
 ```
 
@@ -532,11 +532,11 @@ The result of `fold-left` and `fold-right` are the same if and only if the assoc
     (every? (fn [i] (let [row-i (nth positions (- i 1)) diagonal-i-1 (+ i row-i) diagonal-i-2 (- i row-i)]
       (and (not= row-i row-k) (not= diagonal-i-1 diagonal-k-1) (not= diagonal-i-2 diagonal-k-2)))) (range 1 k))))
 
-(defn adjoin-position [new-row k rest-of-queens] 
+(defn adjoin-position [new-row k rest-of-queens]
   (concat rest-of-queens (list new-row)))
 
 (defn queens [board-size]
-  (defn queen-cols [k] 
+  (defn queen-cols [k]
     (if (= k 0) (list empty-board)
                 (->> (queen-cols (- k 1))
                      (mapcat (fn [rest-of-queens] (map (fn [new-row] (adjoin-position new-row k rest-of-queens)) (range 1 (+ board-size 1)))))
@@ -544,11 +544,11 @@ The result of `fold-left` and `fold-right` are the same if and only if the assoc
   (queen-cols board-size))
 ```
 
-Another version (the search algorithm), works in the positive order. 
+Another version (the search algorithm), works in the positive order.
 
 ```clojure
-    
-(defn queens-optimized [board-size] 
+
+(defn queens-optimized [board-size]
   (defn safe? [used-diagonal-1 used-diagonal-2 cur]
     (let [new-row (last cur) new-col (count cur)]
       (not (or (used-diagonal-1 (+ new-row new-col -2)) (used-diagonal-2 (+ new-row (- new-col) board-size -1))))))
@@ -563,7 +563,7 @@ Another version (the search algorithm), works in the positive order.
   (defn permutation [used-diagonal-1 used-diagonal-2 unused cur]
     (if (empty? unused) (list cur)
                         (->> unused
-                             (map #(conj cur %)) 
+                             (map #(conj cur %))
                              (filter (partial safe? used-diagonal-1 used-diagonal-2))
                              (mapcat #(apply permutation (generate-state used-diagonal-1 used-diagonal-2 unused %)))
                         )))
@@ -573,17 +573,17 @@ Another version (the search algorithm), works in the positive order.
 
 It's slower because:
 
-1. The search algorithm wants the state to be transfered between function calls. 
+1. The search algorithm wants the state to be transfered between function calls.
 
-2. The search algorithm forms a tree of call stacks, while the recursive algorithm only forms a chain of call stacks. 
+2. The search algorithm forms a tree of call stacks, while the recursive algorithm only forms a chain of call stacks.
 
-So here you mihght see that pure recursive algorithm works better for this particular problem. 
+So here you mihght see that pure recursive algorithm works better for this particular problem.
 
 ### Exercise 2.43
 
 Interchanging the order of maping cause the call stacks form a tree, i.e. every `queen-cols` functions calls itself at least once(In the beginning it's n times.
 
-Estimates: 
+Estimates:
 $$
 \begin {aligned}
 &\because& \sum_{i=4}^n \frac{i^2}{i(i-1)(i-2)(i-3)} \text{ converges.}\\
@@ -593,7 +593,7 @@ $$
 \end{aligned}
 $$
 
-Calculating the actual time difference its meaningless most of the time, since there is always a constant factor in [Big O notation](https://en.wikipedia.org/wiki/Big_O_notation). 
+Calculating the actual time difference its meaningless most of the time, since there is always a constant factor in [Big O notation](https://en.wikipedia.org/wiki/Big_O_notation).
 
 (Also I'm lazy :p)
 
@@ -603,11 +603,11 @@ Calculating the actual time difference its meaningless most of the time, since t
 (defn safe? [k positions]
       (and (not= row-i row-k) (not= diagonal-i-1 diagonal-k-1) (not= diagonal-i-2 diagonal-k-2)))) (range 1 k))))
 
-(defn adjoin-position [new-row k rest-of-queens] 
+(defn adjoin-position [new-row k rest-of-queens]
   (concat rest-of-queens (list new-row)))
 
 (defn queens [board-size]
-  (defn queen-cols [k] 
+  (defn queen-cols [k]
     (if (= k 0) (list empty-board)
                 (->> (queen-cols (- k 1))
                      (mapcat (fn [rest-of-queens] (map (fn [new-row] (adjoin-position new-row k rest-of-queens)) (range 1 (+ board-size 1)))))
@@ -615,7 +615,7 @@ Calculating the actual time difference its meaningless most of the time, since t
   (queen-cols board-size))
 
 (defn bad-queens [board-size]
-  (defn queen-cols [k] 
+  (defn queen-cols [k]
     (if (= k 0) (list empty-board)
                 (->> (range 1 (+ board-size 1))
                      (mapcat (fn [new-row] (map (fn [rest-of-queens] (adjoin-position new-row k rest-of-queens)) (queen-cols (- k 1)))))
@@ -629,8 +629,8 @@ Calculating the actual time difference its meaningless most of the time, since t
 ### Exercise 2.44
 
 ```clojure
-(defn up-split [painter n] 
-  (if (= n 0) painter 
+(defn up-split [painter n]
+  (if (= n 0) painter
     (let [smaller (up-split painter (- n 1))]
       (below painter (beside smaller smaller)))))
 ```
@@ -638,11 +638,11 @@ Calculating the actual time difference its meaningless most of the time, since t
 ### Exercise 2.45
 
 ```clojure
-(defn split [painter n op1 op2] 
-  (if (= n 0) painter 
+(defn split [painter n op1 op2]
+  (if (= n 0) painter
     (let [smaller (split painter (- n 1) op1 op2)]
       (op1 painter (op2 smaller smaller)))))
-      
+
 (def right-split beside below)
 (def up-split below beside)
 ```
@@ -683,13 +683,13 @@ Clojure doesn't have the same `cons` as Scheme does.
 ### Exercise 2.49
 
 ```clojure
-(defn frame-coord-map [frame] 
-  (fn [v] (add-vect (origin-frame frame) 
+(defn frame-coord-map [frame]
+  (fn [v] (add-vect (origin-frame frame)
           (add-vect (scale-vect (xcor-vect v) (edge1-frame frame))
                     (scale-vect (ycor-vect v) (edge2-frame frame))))))
 
 (defn segments->painter [segments]
-  (fn [frame] 
+  (fn [frame]
     (doseq [segment segments]
       (draw-line ((frame-coord-map frame) (start-segment segment)) ((frame-coord-map frame) (end-segment segment))))))
 
@@ -730,7 +730,7 @@ Clojure doesn't have the same `cons` as Scheme does.
 (defn rotate90 [painter]
   (transform-painter painter (make-vect 1 0) (make-vect 1 1) (make-vect 0 0)))
 
-(defn beside 
+(defn beside
   ([painter] (beside painter painter))
   ([painter1 painter2]
   (let [split-point (make-vect 1/2 0)
@@ -738,7 +738,7 @@ Clojure doesn't have the same `cons` as Scheme does.
         paint-right (transform-painter painter2 split-point (make-vect 1 0) (make-vect 1/2 1))]
     (fn [frame] (paint-left frame) (paint-right frame)))))
 
-(defn below 
+(defn below
   ([painter] (below painter painter))
   ([painter1 painter2]
   (let [split-point (make-vect 0 1/2)
@@ -752,7 +752,7 @@ Clojure doesn't have the same `cons` as Scheme does.
 
 ### Exercise 2.52
 
-I use quil on clojure to implement everything of Chapter 2.2.4 on [Github](https://github.com/glyh/sicp-solutions-clojure/blob/main/src/sicp_solutions_clojure/chapter_2/picture_language.clj). 
+I use quil on clojure to implement everything of Chapter 2.2.4 on [Github](https://github.com/glyh/sicp-solutions-clojure/blob/main/src/sicp_solutions_clojure/chapter_2/picture_language.clj).
 
 ### Exercise 2.53
 
@@ -770,7 +770,7 @@ I use quil on clojure to implement everything of Chapter 2.2.4 on [Github](https
 
 ```clojure
 (defn equal-list [a b]
-  (cond (and (list? a) (list? b)) 
+  (cond (and (list? a) (list? b))
           (cond (and (empty? a) (empty? b)) true
                 (not (or (empty? a) (empty? b))) (and (equal-list (first a) (first b)) (recur (rest a) (rest b)))
                 :else false)
@@ -778,13 +778,13 @@ I use quil on clojure to implement everything of Chapter 2.2.4 on [Github](https
         :else false))
 ```
 
-Actually a single `=` will do all the jobs for us. 
+Actually a single `=` will do all the jobs for us.
 
 ### Exercise 2.55
 
 `'` is but a macro. The reader of clojure will translate `''abracadabra` into `(quote (quote abracadabra))`.
 
-As a result, you'll get `(quote abracadabra)`. 
+As a result, you'll get `(quote abracadabra)`.
 
 ### Exercise 2.56
 
@@ -792,13 +792,13 @@ As a result, you'll get `(quote abracadabra)`.
 (def variable? symbol?)
 (def same-variable? =)
 
-(defn make-sum [a1 a2] 
-  (cond (= a1 0) a2 
+(defn make-sum [a1 a2]
+  (cond (= a1 0) a2
         (= a2 0) a1
         (and (number? a1) (number? a2)) (+ a1 a2)
         :else (list '+ a1 a2)))
 
-(defn make-product [a1 a2] 
+(defn make-product [a1 a2]
   (cond (or (= a1 0) (= a2 0)) 0
         (= a1 1) a2
         (= a2 1) a1
@@ -821,7 +821,7 @@ As a result, you'll get `(quote abracadabra)`.
 (defn product? [x] (and (list? x) (= (first x) '*)))
 (defn exponentiation? [x] (and (list? x) (= (first x) '**)))
 
-(defn deriv [exp var] 
+(defn deriv [exp var]
   (cond (number? exp) 0
         (variable? exp) (if (= exp var) 1 0)
         (sum? exp) (make-sum (deriv (addend exp) var) (deriv (augend exp) var))
@@ -836,7 +836,7 @@ As a result, you'll get `(quote abracadabra)`.
 (def variable? symbol?)
 (def same-variable? =)
 
-(defn make-sum [& args] 
+(defn make-sum [& args]
   (defn insert-into-sum [col i]
     (cond (number? i) (assoc col 0 (+ (first col) i))
           :else (conj col i)))
@@ -871,11 +871,11 @@ As a result, you'll get `(quote abracadabra)`.
 (defn deriv-nth-product [col var id]
   (apply make-product (map-indexed (fn [id' item] (if (= id' id) (deriv item var) item)) col)))
 
-(defn deriv [exp var] 
+(defn deriv [exp var]
   (cond (number? exp) 0
         (variable? exp) (if (= exp var) 1 0)
         (sum? exp) (apply make-sum (map #(deriv % var) (rest exp)))
-        (product? exp) 
+        (product? exp)
           (let [n (- (count exp) 1)]
             (apply make-sum (map (partial deriv-nth-product (rest exp) var) (range (- (count exp) 1)))))
         (exponentiation? exp) (make-product (make-product (exponent exp) (make-exponentiation (base exp) (make-sum (exponent exp) -1))) (deriv (base exp) var))
@@ -917,7 +917,7 @@ You can also do it without changing the definition of `deriv`, just change `auge
     (let [sorted-ops (->> exp
          (map-indexed (fn [idx itm] (list idx (get operators-precedence itm))))
          (filter #(not= (second %) nil))
-         (sort-by second)) split-at (first (first sorted-ops))] 
+         (sort-by second)) split-at (first (first sorted-ops))]
       (if (nil? split-at) (recur (first exp)); the expression is a constant in some brackets
         (vector (nth exp split-at) (add-parentheses-to-prefix (take split-at exp)) (add-parentheses-to-prefix (drop (+ split-at 1) exp)))))))
 ```
@@ -929,11 +929,11 @@ You can also do it without changing the definition of `deriv`, just change `auge
   (if (= x (first set)) true
       (and (not (empty? set)) (recur x (rest set)))))
 
-(defn adjoin-set [x set] 
+(defn adjoin-set [x set]
   (if (element-of-set? x set) set (conj set x)))
 
-(defn union-set [s1 s2] 
-  (cond (empty? s1) s2 
+(defn union-set [s1 s2]
+  (cond (empty? s1) s2
         (empty? s2) s1
         :else (adjoin-set (first s1) (union-set (rest s1) s2))))
 ```
@@ -949,7 +949,7 @@ You can also do it without changing the definition of `deriv`, just change `auge
 
 (def union-set concat)
 
-(defn intersection-set [s1 s2] 
+(defn intersection-set [s1 s2]
   (cond (or (empty? s1) (empty? s2)) ()
         (element-of-set? (first s1) s2) (adjoin-set (intersection-set (rest s1) s2) (first s1))
         :else (recur (rest s1) s2)))
@@ -982,13 +982,13 @@ Actually, I won't use the duplicate implementation in application... Why not jus
 ### Exercise 2.61
 
 ```clojure
-(defn element-of-set? [x set] 
+(defn element-of-set? [x set]
   (cond (empty? set) false
         (= x (first set)) true
         (< x (first set)) false
         :else (recur x (rest set))))
 
-(defn adjoin-set [x set] 
+(defn adjoin-set [x set]
   (cond (empty? set) (list x)
         (= x (first set)) set
         (< x (first set)) (conj set x)
@@ -999,7 +999,7 @@ This algorithm can be optimized to $O(\log n)$ with Dichotomic Search.
 
 ### Exercise 2.62
 
-```clojure 
+```clojure
 (defn union-set [s1 s2]
   (cond (empty? s2) s1
         (empty? s1) s2
@@ -1023,22 +1023,22 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
 ### Exercise 2.64
 
 ```clojure
-(defn list->tree [elements] 
+(defn list->tree [elements]
   (defn partial-tree [elts n]
     (if (= n 0) (list nil elts)
-      (let [left-size (quot (- n 1) 2) 
-            right-size (- n left-size 1) 
-            [left-tree non-left-elts] (partial-tree elts left-size) 
+      (let [left-size (quot (- n 1) 2)
+            right-size (- n left-size 1)
+            [left-tree non-left-elts] (partial-tree elts left-size)
             [cur & right-elts] non-left-elts
             [right-tree left-elts] (partial-tree right-elts right-size)]
-        (list (list cur left-tree right-tree) 
+        (list (list cur left-tree right-tree)
           left-elts))))
   (first (partial-tree elements (count elements))))
 
 (list->tree '(1 3 5 7 9 11)); => (5 (1 nil (3 nil nil)) (9 (7 nil nil) (11 nil nil)))
 ```
 
-`list->tree` is $O(n)$. 
+`list->tree` is $O(n)$.
 
 ### Exercise 2.65
 
@@ -1096,11 +1096,11 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
         (= bit 1) (R branch)
         :else (throw (Exception. (str "bad bit: CHOOSE-BRANCH `" bit "`")))))
 
-(defn decode [bits tree] 
+(defn decode [bits tree]
   (defn decode-1 [bits cur]
     (if (empty? bits) ()
       (let [next (choose-branch (first bits) cur)]
-        (if (leaf? next) 
+        (if (leaf? next)
           (conj (decode-1 (rest bits) tree) (symbol-leaf next))
           (recur (rest bits) next)))))
   (decode-1 bits tree))
@@ -1109,7 +1109,7 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
 ; It's better to used the sort function implemented by Clojure, with a time complexity of O(nlogn)
 
 (defn make-leaf-set [pairs]
-  (->> pairs 
+  (->> pairs
        (sort-by weight)
        (map #(conj % 'leaf))))
 
@@ -1123,7 +1123,7 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
 ```clojure
 (def encode-symbol (memoize (fn [tree sym]
   (defn travel [rt cur]
-    (if (leaf? rt) 
+    (if (leaf? rt)
         (if (= (symbol-leaf rt) sym) cur false)
       (or (travel (L rt) (conj cur 0))
            (travel (R rt) (conj cur 1)))))
@@ -1185,7 +1185,7 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
 (defn successive-merge [cnt pairs]
   (defn iter [pairs n]
     (if (= n 0) (second (multimap/first pairs))
-      (let [new-node (code-tree (second (multimap/first pairs)) (second (multimap/second pairs))) 
+      (let [new-node (code-tree (second (multimap/first pairs)) (second (multimap/second pairs)))
             rest-pairs (multimap/rest (multimap/rest pairs))]
         (recur (multimap/add rest-pairs (weight new-node) new-node) (- n 1)))))
   (iter pairs (- cnt 1)))
@@ -1206,27 +1206,27 @@ As a result, `tree->list-1` is $O(n^2)$, while `tree->list-2` is $O(n)$.
 (encode message dictionary); 84 bit in total
 ```
 
-For a fixed-length code, it would take $36 \times 3 = 108 \text{(bits)}$. 
+For a fixed-length code, it would take $36 \times 3 = 108 \text{(bits)}$.
 
 ### Exercise 2.71
 
-I just draw it for n = 2, n = 5 and n = 10 are similar. 
+I just draw it for n = 2, n = 5 and n = 10 are similar.
 
 ![A chain like Hoffman Tree for n = 2.](2-71-hoffman-tree-example.png)
 
-It requires 1 bit to encode the most frequent symbol, while $2^n$ bit to encode the least frequent symbol. 
+It requires 1 bit to encode the most frequent symbol, while $2^n$ bit to encode the least frequent symbol.
 
 ### Exercise 2.72
 
-It takes $O(1)$ to encode the most frequent symbol in Exercise 2.71, while $O(2^n)$ to encode the least frequent symbol in Exercise 2.71. 
+It takes $O(1)$ to encode the most frequent symbol in Exercise 2.71, while $O(2^n)$ to encode the least frequent symbol in Exercise 2.71.
 
 ### Exercise 2.73
 
 #### 1)
 
-The code treat the exp as a general kind of data, tagged `sum` or `product`. Then it seperate the differentiation part of each implementation out of the general `deriv` function. 
+The code treat the exp as a general kind of data, tagged `sum` or `product`. Then it seperate the differentiation part of each implementation out of the general `deriv` function.
 
-`number` and `variable` are special since they don't act like some operation, operating on operators and operands. 
+`number` and `variable` are special since they don't act like some operation, operating on operators and operands.
 
 #### 2) & 3)
 
@@ -1243,13 +1243,13 @@ Clojure requires pure functional programming, so there's no way to "install" som
 
 (def deriv)
 
-(defn make-sum [a1 a2] 
-  (cond (= a1 0) a2 
+(defn make-sum [a1 a2]
+  (cond (= a1 0) a2
         (= a2 0) a1
         (and (number? a1) (number? a2)) (+ a1 a2)
         :else (list '+ a1 a2)))
 
-(defn make-product [a1 a2] 
+(defn make-product [a1 a2]
   (cond (or (= a1 0) (= a2 0)) 0
         (= a1 1) a2
         (= a2 1) a1
@@ -1273,26 +1273,26 @@ Clojure requires pure functional programming, so there's no way to "install" som
   (if (= (count exp) 2) (second exp) (concat '(*) (rest exp))))
 
 (defn deriv-* [exp var]
-  (make-sum (make-product 
+  (make-sum (make-product
               (multiplier exp)
               (deriv (multiplicand exp) var))
-            (make-product 
+            (make-product
               (deriv (multiplier exp) var)
               (multiplicand exp))))
 
 (def base first)
 (def exponent second)
 (defn deriv-** [exp var]
-  (make-product (make-product 
+  (make-product (make-product
                   (exponent exp)
                   (make-exponentiation
-                    (base exp) 
-                    (make-sum (exponent exp) -1))) 
+                    (base exp)
+                    (make-sum (exponent exp) -1)))
                 (deriv (base exp) var)))
 
 
 (def ops-map {
-  ['deriv '+] deriv-+, 
+  ['deriv '+] deriv-+,
   ['deriv '*] deriv-*,
   ['deriv '**] deriv-**
 })
@@ -1310,33 +1310,33 @@ Clojure requires pure functional programming, so there's no way to "install" som
 
 In the example on the book, you should only change the implementation of `get`, `put`, and calls to them.
 
-In my code you can just change the map `ops-map` and the calls to the function `get`. 
+In my code you can just change the map `ops-map` and the calls to the function `get`.
 
 ### Exercise 2.74
 
 ```clojure
-(defn get-record 
+(defn get-record
   "the employee's id and the file should be supplied. "
   ([id file] ; O(n)
-    (first 
+    (first
       (for [record file
             :let [cur-id (:id record)]
             :when (= cur-id id)] record))))
 
-(defn find-employee-record 
-  "The set of all files should be supplied. 
-   It should be structured like this: 
-   '(({:id Tom :salary 10} {:id Jerry :salary 100}) 
+(defn find-employee-record
+  "The set of all files should be supplied.
+   It should be structured like this:
+   '(({:id Tom :salary 10} {:id Jerry :salary 100})
      ({:id Alpha :salary 10} {:id Bravo :salary 100}))
    That is, a list of list of maps. "
   ([id files] ; O(n)
     (some #(get-record id %) files)))
 
-(defn get-salary [id files] 
+(defn get-salary [id files]
   (:salary (find-employee-record id files)))
 ```
 
-Only change the function `get-record`. 
+Only change the function `get-record`.
 
 ### Exercise 2.75
 
@@ -1353,21 +1353,21 @@ Only change the function `get-record`.
 
 ### Exercise 2.76
 
-For explicit dispatch: 
+For explicit dispatch:
 
   every operation should be implement as a conditional procudure, considering different inputs.
- 
-For data-directed style: 
 
-  operations on types forms a 2-dimension array, implementation of the operations are in the arrays. 
+For data-directed style:
+
+  operations on types forms a 2-dimension array, implementation of the operations are in the arrays.
 
 For message-passing style:
 
-  The operations on a specific types should always be implemented in the definition of that type. 
+  The operations on a specific types should always be implemented in the definition of that type.
 
-For a system in which new types must be often added, message-passing style is more appropriate. 
+For a system in which new types must be often added, message-passing style is more appropriate.
 
-For a system in which new operations must often be added, explicit dispatch is more appropriate. 
+For a system in which new operations must often be added, explicit dispatch is more appropriate.
 
 ### Exercise 2.77
 
@@ -1375,17 +1375,17 @@ This adds a interface for the `complex` numbers, so it works.
 
 For the second question, my implementation differs from the one on the book (I'm using clojure).
 
-In my implementation, I straightly call the functions in the module `complex`, so no `apply-generic` is called. 
+In my implementation, I straightly call the functions in the module `complex`, so no `apply-generic` is called.
 
-The `magnitude` function calls  `complex/magnitude`, and then `base/val`. 
+The `magnitude` function calls  `complex/magnitude`, and then `base/val`.
 
-### Exercise 2.78~2.81, 2.83 ~ 2.85
+### Exercise 2.78 ~ 2.81, 2.83 ~ 2.85, 2.87 ~ 2.95
 
 See: [sicp-solutions on my github.](https://github.com/glyh/sicp-solutions-clojure/tree/main/src/sicp_solutions_clojure/chapter_2/algebraic_system)
 
-### Exercise 2.81  
+### Exercise 2.81
 
-Stack overflows, since the function keeps calling itself. 
+Stack overflows, since the function keeps calling itself.
 
 ### Exercise 2.82
 
@@ -1393,7 +1393,7 @@ The method mentioned in the question is not good, for example, we have type a, b
 
 Let's say a, b and c are all supertypes of some d, but there's no way to convert between them.
 
-If so, trying to coerce between them won't lay out the result we want. 
+If so, trying to coerce between them won't lay out the result we want.
 
 A proper way to solve this, might be treat the types relationships as a DAG. For each variable x to be applied by the operation,add a set on the node with the type in it, unioning the sets in the direction of the edges goes, and see whether there's some type have all types of inputed variables.
 
@@ -1407,8 +1407,6 @@ This is only a trivial solution. There might be better ways, but requires deeper
 
 ### Exercise 2.86
 
-Nothing to change since ratio is treated as primitive in Clojure. 
+Nothing to change since ratio is treated as primitive in Clojure.
 
-If you stick to this, we could insert some layers between `complex` and the under layers it relies on. 
-
-
+If you stick to this, we could insert some layers between `complex` and the under layers it relies on.
