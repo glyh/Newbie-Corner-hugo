@@ -7,14 +7,14 @@ draft: false
 ---
 
 
-I'm learning Clojure and SICP these days, and trying to finish the exercises on 
+I'm learning Clojure and SICP these days, and trying to finish the exercises on
 the SICP.
 
 <!--more-->
 
 ### Exercise 1.1
 
-```clojure 
+```clojure
 (let [a 3 b (+ a 1)]
 (doseq [x [10
            (+ 5 3 4)
@@ -58,15 +58,15 @@ The following form doesn't have a valid syntax in Clojure.
 (def (p) (p))
 ```
 
-Let's suppose it is valid. 
+Let's suppose it is valid.
 
-If we're under applicative-order evaluation, the function will return 0, since \(p\) is not evaluated. 
+If we're under applicative-order evaluation, the function will return 0, since \(p\) is not evaluated.
 
 If we're under normal-order evaluation, the function will fall in to a dead loop.
 
 ### Exercise 1.6
 
-This would fall into a dead loop. 
+This would fall into a dead loop.
 
 Different from evaluation of the special form `cond`, the function call requires every parameter to be evaluated.
 
@@ -75,7 +75,7 @@ There is only one exit in the `sqrt-iter`, which calls `sqrt-iter` itself, resul
 ### Exercise 1.7
 
 ```clojure
-(defn abs[x] 
+(defn abs[x]
   (if (< x 0) (- x) x))
 
 (def eps 1e-8)
@@ -83,10 +83,10 @@ There is only one exit in the `sqrt-iter`, which calls `sqrt-iter` itself, resul
 (defn sqrt
   ([x] (sqrt x 1 0))
   ([x guess last-guess]
-    (if (< (abs (- guess last-guess)) eps) 
-      guess 
+    (if (< (abs (- guess last-guess)) eps)
+      guess
       (recur x (double (/ (+ guess (/ x guess)) 2)) guess))))
-      ; use `double` to convert ratio to float numbers, avoiding overflow. 
+      ; use `double` to convert ratio to float numbers, avoiding overflow.
 
 (println (sqrt 121))
 ```
@@ -102,10 +102,10 @@ There is only one exit in the `sqrt-iter`, which calls `sqrt-iter` itself, resul
 (defn cube-root
   ([x] (cube-root x 1 0))
   ([x guess last-guess]
-    (if (< (abs (- guess last-guess)) eps) 
-      guess 
-      (recur x 
-             (double (/ (+ (* 2 guess) (/ x (* guess guess))) 3)) 
+    (if (< (abs (- guess last-guess)) eps)
+      guess
+      (recur x
+             (double (/ (+ (* 2 guess) (/ x (* guess guess))) 3))
              guess))))
 
 (println (cube-root 0.00483))
@@ -124,7 +124,7 @@ The first one is recursive while the second one is iterative.
     (= y 1) 2
     :else (A (- x 1) (A x (- y 1)))))
 
-(doseq [v [[1 10] [2 4] [3 3]]] 
+(doseq [v [[1 10] [2 4] [3 3]]]
   (println (apply A v)))
 
 (defn f
@@ -157,12 +157,12 @@ The first one is recursive while the second one is iterative.
 ```clojure
 (defn pascal-triangle
   ([n] (pascal-triangle n [[1]]))
-  ([n l] 
-    (if (= 1 n) 
-      l 
-      (recur (- n 1) 
-             (conj l (vec (map + 
-             (conj (last l) 0) 
+  ([n l]
+    (if (= 1 n)
+      l
+      (recur (- n 1)
+             (conj l (vec (map +
+             (conj (last l) 0)
              (cons 0 (last l)))))))))
 
 (prn (pascal-triangle 5))
@@ -197,7 +197,7 @@ I --> M{"f(1, 1)"}
 M --> N("f(0, 1)")
 style N fill:#4caf50
 M --> O("f(1, 0)")
-J --> I 
+J --> I
 K --> P{"f(10, 1)"}
 K --> Q("f(11, 0)")
 P --> R{"f(9, 1)"}
@@ -223,13 +223,13 @@ AF --> AH("f(2, 0)")
 
 #### Space complexity
 
-It’s easy to observe the space complexity is $O(max\{m, n\})$. 
+It’s easy to observe the space complexity is $O(max\{m, n\})$.
 
-#### Time complexity 
+#### Time complexity
 
 Let's suppose n be the money to be changed, m be the count of type of coins, $V_m$ be the denomination of the coin of mth type.
 
-The following is only a rough estimate. 
+The following is only a rough estimate.
 
 $$
 \begin{aligned}
@@ -283,7 +283,7 @@ The space complexity is the same as time complexity.
 
 ### Exercise 1.16
 
-```clojure 
+```clojure
 (defn fast-expt
   ([b n] (fast-expt 1N b n))
   ([a b n]
@@ -343,13 +343,13 @@ $$
 ```clojure
 (defn fib
   ([n] (fib 1N 0N 0N 1N n))
-  ([a b p q cnt] 
+  ([a b p q cnt]
     (cond (= cnt 0) b
-          (even? cnt) (recur a b 
-                             (+ (* p p) (* q q)) 
+          (even? cnt) (recur a b
+                             (+ (* p p) (* q q))
                              (+ (* q q) (* 2 p q))
                              (/ cnt 2))
-          :else (recur (+ (* b q) (* a q) (* a p)) 
+          :else (recur (+ (* b q) (* a q) (* a p))
                        (+ (* b p) (* a q))
                        p
                        q
@@ -399,17 +399,17 @@ Normal order evaluation:
 ```clojure
 (if (= 40 0) 206 (gcd 40 (rem 206 40))); =>
 
-(if (= 40 0) 
-  206 
-  (if (= (rem 206 40) 0) 
-    40 
+(if (= 40 0)
+  206
+  (if (= (rem 206 40) 0)
+    40
     (gcd (rem 206 40) (rem 40 (rem 206 40))))); =>
 
-(if (= 40 0) 
-  206 
-  (if (= (rem 206 40) 0) 
-    40 
-    (if (= (rem 40 (rem 206 40)) 0) 
+(if (= 40 0)
+  206
+  (if (= (rem 206 40) 0)
+    40
+    (if (= (rem 40 (rem 206 40)) 0)
       (rem 206 40)
       (gcd (rem 40 (rem 206 40)) (rem (rem (206 40)) (rem 40 (rem 206 40))))))); =>
 
@@ -462,30 +462,30 @@ $$
 Output:
 
 > (1009 1013 1019)
-> 
+>
 > “Elapsed time: 0.676343 msecs”
-> 
+>
 > (10007 10009 10037)
-> 
+>
 > “Elapsed time: 1.799251 msecs”
-> 
+>
 > (100003 100019 100043)
-> 
+>
 > “Elapsed time: 2.813975 msecs”
-> 
+>
 > (1000003 1000033 1000037)
-> 
+>
 > “Elapsed time: 2.98355 msecs”
-> 
+>
 > nil
 
 ![A line with a sqaure-root-function look.](/images/sicp-solutions-in-clojure-chapter-1/1-22-time-input-scale-line-plot.svg)
 
-This verrified the assumption of the order of growth of the `prime?` function. 
+This verrified the assumption of the order of growth of the `prime?` function.
 
 ### Exercise 1.23
 
-```clojure 
+```clojure
 (defn smallest-divisor
   ([n] (smallest-divisor n 2))
   ([n test-divisor] (cond (> (* test-divisor test-divisor) n) n
@@ -506,20 +506,20 @@ This verrified the assumption of the order of growth of the `prime?` function.
 
 ![Two lines having a portion less than 2](/images/sicp-solutions-in-clojure-chapter-1/1-23-time-input-scale-line-plot.svg)
 
-A guess: Executing the if statements cost time. 
+A guess: Executing the if statements cost time.
 
 ### Exercise 1.24
 
 ```clojure
-(defn expmod 
+(defn expmod
   "Calculate a^b%p"
-  [a b p] 
+  [a b p]
   (cond (= 0 b) 1
         (even? b)
           (let [h (expmod a (/ b 2) p)]
             (rem (* h h) p))
         :else
-          (rem (* a (expmod a (- b 1) p)) p))) 
+          (rem (* a (expmod a (- b 1) p)) p)))
 
 (defn fermat-test [n]
   (let [rnd (bigint (+ 1 (rand (- n 1))))]
@@ -536,23 +536,23 @@ A guess: Executing the if statements cost time.
 
 ![A line with an log-function look, however a point is strange](/images/sicp-solutions-in-clojure-chapter-1/1-24-time-input-scale-line-plot.svg)
 
-This nearly consistents with my guess that the time consumed is proportional to the order of the magnitude of the input. 
+This nearly consistents with my guess that the time consumed is proportional to the order of the magnitude of the input.
 
-However a strange point does not consist with my guess. 
+However a strange point does not consist with my guess.
 
 ### Exercise 1.25
 
-She is wrong. The memory is limited, so there's no point to store a huge number. 
+She is wrong. The memory is limited, so there's no point to store a huge number.
 
-If we compute exponentials then take remainders, it may overflow in many cases. 
+If we compute exponentials then take remainders, it may overflow in many cases.
 
-On the contrary, taking remainders after every time we do a multiplication will reduce the probability of math overflow. 
+On the contrary, taking remainders after every time we do a multiplication will reduce the probability of math overflow.
 
 ### Exercise 1.26
 
 $$
 \begin{aligned}
-&T(n) &=& \left\{ \begin{aligned} 
+&T(n) &=& \left\{ \begin{aligned}
 & 2T(\frac{n}{2}) + O(1) &, &n \equiv 0 \pmod 2& \\
 & T(n-1) + O(1) &, & n \equiv 1 \pmod 2&
 \end{aligned}\right. &\\
@@ -564,15 +564,15 @@ $$
 ### Exercise 1.27
 
 ```clojure
-(defn expmod 
+(defn expmod
   "Calculate a^b%p"
-  [a b p] 
+  [a b p]
   (cond (= 0 b) 1
         (even? b)
           (let [h (expmod a (/ b 2) p)]
             (rem (* h h) p))
         :else
-          (rem (* a (expmod a (- b 1) p)) p))) 
+          (rem (* a (expmod a (- b 1) p)) p)))
 
 (defn carmichael? [n] (every? #(= (expmod % n n) %) (range 2 n)))
 
@@ -582,15 +582,15 @@ $$
 ### Exercise 1.28
 
 ```clojure
-(defn expmod 
+(defn expmod
   "Calculate a^b%p"
-  [a b p] 
+  [a b p]
   (cond (= 0 b) 1
         (even? b)
           (let [h (expmod a (/ b 2) p) sq (rem (* h h) p)]
             (if (and (= sq 1) (not= h 1) (not= h (- p 1))) 0 sq))
         :else
-          (rem (* a (expmod a (- b 1) p)) p))) 
+          (rem (* a (expmod a (- b 1) p)) p)))
 
 (defn miller-rabin [n]
   (let [rnd (bigint (+ 1 (rand (- n 1))))]
@@ -616,7 +616,7 @@ $$
 
 (defn simpson [f a b n]
   (let [h (/ (- b a) n) h2 (+ h h)]
-    (* (/ h 3) 
+    (* (/ h 3)
       (+ (f a) (f b)
          (* 2 (sum (map f (range (+ a h2) (- b h) h2))))
          (* 4 (sum (map f (range (+ a h) b h2))))))))
@@ -630,7 +630,7 @@ $$
 ```clojure
 (defn sum [term a next b] ; avoid using 0 since the function might work not only for numbers
   (defn iter [x result]
-    (if (= x b) 
+    (if (= x b)
         (term b)
         (recur (next x) (+ (term x) result))))
   (iter (next a) (term a)))
@@ -655,8 +655,8 @@ $$
 #### b)
 
 ```clojure
-(defn product 
-  ([term a next b] 
+(defn product
+  ([term a next b]
     (product term (next a) next b (term a)))
   ([term a next b result]
     (if (> a b) result (recur term (next a) next b (* (term a) result)))))
@@ -666,9 +666,9 @@ $$
 
 Actually, `accumulate` is the function `reduce` implemented in Clojure.
 
-There is a difference, that is accumulate is right-fold while reduce is left-fold. 
+There is a difference, that is accumulate is right-fold while reduce is left-fold.
 
-See [more about fold on wikipedia](https://en.wikipedia.org/wiki/Fold_(higher-order_function). 
+See [more about fold on wikipedia](https://en.wikipedia.org/wiki/Fold_(higher-order_function).
 
 #### a)
 
@@ -714,7 +714,7 @@ See [more about fold on wikipedia](https://en.wikipedia.org/wiki/Fold_(higher-or
 
 (f f); =>
 
-(f 2); => 
+(f 2); =>
 
 ; Execution error (ClassCastException) at user/f (REPL:1).
 ; class java.lang.Long cannot be cast to class clojure.lang.IFn.
@@ -734,7 +734,7 @@ $$
 
 (defn fixed-point [f initial]
   (def close? #(< (abs (- %1 %2)) tolerance))
-  (defn _try [guess] ; `try` is a special form in Clojure. 
+  (defn _try [guess] ; `try` is a special form in Clojure.
     (let [next (f guess)]
       (if (close? guess next) next (recur next))))
   (_try initial))
@@ -751,7 +751,7 @@ $$
 
 (defn fixed-point [f initial]
   (def close? #(< (abs (- %1 %2)) tolerance))
-  (defn _try [guess] ; `try` is a special form in Clojure. 
+  (defn _try [guess] ; `try` is a special form in Clojure.
     (println guess)
     (let [next (f guess)]
       (if (close? guess next) next (recur next))))
@@ -857,9 +857,9 @@ Output:
 > 4.555537551999825
 >
 
-Without average-damping, the fixed-point function took 34 steps; 
+Without average-damping, the fixed-point function took 34 steps;
 
-With average-damping, the fixed-point function took 9 steps. 
+With average-damping, the fixed-point function took 9 steps.
 
 Notice: average-damping won't always improve the performance of your program. you can try this:
 
@@ -870,16 +870,16 @@ Notice: average-damping won't always improve the performance of your program. yo
 (fixed-point (average-damp x) 1/2)
 ```
 
-Average-damping improve the performance of the fixed-point function, if the applying multiple times f on some x results in the output keeping taking turns. 
+Average-damping improve the performance of the fixed-point function, if the applying multiple times f on some x results in the output keeping taking turns.
 
-That property doesn't hold for every function. 
+That property doesn't hold for every function.
 
 ### Exercise 1.37
 
 ```clojure
-(defn cont-frac 
-  ([n d k] (cont-frac n d k 0)) 
-  ([n d k result] 
+(defn cont-frac
+  ([n d k] (cont-frac n d k 0))
+  ([n d k result]
     (if (= k 0) result
                 (recur n d (- k 1) (/ (n k) (+ result (d k)))))))
 
@@ -907,9 +907,9 @@ That property doesn't hold for every function.
 ```clojure
 (def dx 1e-5)
 
-(defn deriv [g] #(/ (- (g (+ % dx)) (g %)) dx)) 
+(defn deriv [g] #(/ (- (g (+ % dx)) (g %)) dx))
 
-(defn newton-transform [g] #(- % (/ (g %) ((deriv g) %)))) 
+(defn newton-transform [g] #(- % (/ (g %) ((deriv g) %))))
 
 (defn newtons-method [f initial] (fixed-point (newton-transform f) initial))
 
@@ -937,7 +937,7 @@ That property doesn't hold for every function.
 
 ```clojure
 (defn repeated [f n]
-  (if (= n 0) identity #(f ((repeated f (- n 1)) %)))) 
+  (if (= n 0) identity #(f ((repeated f (- n 1)) %))))
 ```
 
 ### Exercise 1.44
@@ -945,9 +945,9 @@ That property doesn't hold for every function.
 ```clojure
 (def dx 1e-5)
 
-(defn smooth 
+(defn smooth
   ([f] (smooth f 1))
-  ([f n] 
+  ([f n]
     (if (= n 0) f
       (let [g (smooth f (- n 1))]
         #(/ (+ (g %) (g (- % dx)) (g (+ % dx))) 3)))))
@@ -955,7 +955,7 @@ That property doesn't hold for every function.
 ### Exercise 1.45
 
 ```clojure
-(defn iterative-improve 
+(defn iterative-improve
   [good? improve]
   (fn [initial]
     (defn _try [guess]
@@ -969,7 +969,7 @@ That property doesn't hold for every function.
 
 (defn fixed-point [f initial] ((iterative-improve #(close? % (f %)) f) initial))
 
-(defn sqrt [x] 
+(defn sqrt [x]
   (defn improve [guess] (double (/ (+ guess (/ x guess)) 2)))
-  ((iterative-improve #(close? % (improve %)) improve) 1)) 
+  ((iterative-improve #(close? % (improve %)) improve) 1))
 ```
