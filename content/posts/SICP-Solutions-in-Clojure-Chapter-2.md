@@ -1379,7 +1379,7 @@ In my implementation, I straightly call the functions in the module `complex`, s
 
 The `magnitude` function calls  `complex/magnitude`, and then `base/val`.
 
-### Exercise 2.78 ~ 2.81, 2.83 ~ 2.85, 2.87 ~ 2.95
+### Exercise 2.78 ~ 2.81, 2.83 ~ 2.85, 2.87 ~ 2.97
 
 See: [sicp-solutions on my github.](https://github.com/glyh/sicp-solutions-clojure/tree/main/src/sicp_solutions_clojure/chapter_2/algebraic_system)
 
