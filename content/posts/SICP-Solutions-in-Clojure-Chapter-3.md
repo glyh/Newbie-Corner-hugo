@@ -281,8 +281,11 @@ Use the Floyd's "slow fast pointer" algorithm:
 
 Correctness:
   Obviously, if there's no loop. the algorithm while terminate without two Pointers meeting. What we should consider is the situation that there is a loop.
+
   If there's a loop, we must have a situation that both of the pointers trapped in the loop.
+
   Let's say the size of the loop is N, and the distance between A and B is t when they first entered the loop. Note that the distance t (Assume A is in the front, B is in the back. )
+
   So each move, A moves forward 1 step while B moves forward 2 step, there distance reduce by 1. After t moves, they meet each other.
 
 This algorithm is different from the one implemented in 3.18, since 3.18 is actually judging cycles over a map rather than a linked list.
@@ -292,3 +295,91 @@ This algorithm is different from the one implemented in 3.18, since 3.18 is actu
 Skipped XP
 
 ### Exercise 3.21
+
+The pair of the queue object actually stores a head and rear pointer, So whenever it prints, it prints a pair of the original queue and the last element.
+
+```clojure
+(def print-queue (comp prn first))
+```
+
+### Exercise 3.22
+
+```clojure
+(defn make-queue []
+  (let [front-ptr (atom ())
+        rear-ptr (atom ())]
+     { :front-ptr (fn [] @front-ptr)
+       :rear-ptr (fn [] @rear-ptr)
+       :set-front-ptr! (fn [x] (swap! front-ptr (constantly x)))
+       :set-rear-ptr! (fn [x] (swap! rear-ptr (constantly x)))}))
+
+(defn front-ptr [q] ((:front-ptr q)))
+(defn rear-ptr [q] ((:rear-ptr q)))
+(defn set-front-ptr! [q x] ((:set-front-ptr! q) x))
+(defn set-rear-ptr! [q x] ((:set-rear-ptr! q) x))
+```
+
+### Exercise 3.23
+```clojure
+(defn make-deque []
+  (defn make-node [val] {:val val :last nil :next nil})
+  (let [front-ptr (atom nil)
+        rear-ptr (atom nil)]
+    { :front-ptr (fn [] @front-ptr)
+      :rear-ptr (fn [] @rear-ptr)
+      :swap-front-ptr! (fn [f] (swap! front-ptr f))
+      :swap-rear-ptr! (fn [f] (swap! rear-ptr f))}))
+
+(defn front-ptr [q] ((:front-ptr q)))
+(defn rear-ptr [q] ((:rear-ptr q)))
+(defn set-front-ptr! [q x] ((:swap-front-ptr! q) (constantly x)))
+(defn set-rear-ptr! [q x] ((:swap-rear-ptr! q) (constantly x)))
+(defn swap-front-ptr! [q f] ((:swap-front-ptr! q) f))
+(defn swap-rear-ptr! [q f] ((:swap-rear-ptr! q) f))
+
+(defn empty-deque? [q] (nil? (front-ptr q)))
+(defn front-deque[q]
+  (if (empty-deque? q)
+    (throw (Exception. "FRONT called with an empty queue"))
+    (:val (front-ptr q))))
+(defn front-deque [q]
+  (if (empty-deque? q)
+    (throw (Exception. "FRONT called with an empty queue"))
+    (:val (front-ptr q))))
+
+(defn front-insert-deque! [q x]
+  (let [new-front (-> (make-node val)
+                      (assoc :next (front-ptr q)))]
+    (if (empty-deque? q)
+      (set-rear-ptr! q new-front)
+      (swap-front-ptr! q #(assoc % :last new-front)))
+    (set-front-ptr! q new-front)))
+
+(defn rear-insert-deque! [q x]
+  (let [new-rear (-> (make-node val)
+                     (assoc :last (rear-ptr q)))]
+    (if (empty-deque? q)
+      (set-front-ptr! q new-rear)
+      (swap-rear-ptr! q #(assoc % :next new-rear)))
+    (set-rear-ptr! q new-rear)))
+
+(defn front-delete-deque! [q]
+  (if (empty-deque? q)
+    (throw (Exception. "DELETE called with an empty queue"))
+    (if (= (front-ptr q) (rear-ptr q))
+      (do (set-front-ptr! q nil)
+          (set-rear-ptr! q nil))
+      (do
+        (swap-rear-ptr! q :last)
+        (swap-rear-ptr! q #(assoc % :next nil))))))
+
+(defn rear-delete-deque! [q]
+  (if (empty-deque? q)
+    (throw (Exception. "DELETE called with an empty queue"))
+    (if (= (front-ptr q) (rear-ptr q))
+      (do (set-front-ptr! q nil)
+          (set-rear-ptr! q nil))
+      (do
+        (swap-front-ptr! q :next)
+        (swap-front-ptr! q #(assoc % :last nil))))))
+```
