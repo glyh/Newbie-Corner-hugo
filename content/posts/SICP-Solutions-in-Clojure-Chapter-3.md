@@ -383,3 +383,60 @@ The pair of the queue object actually stores a head and rear pointer, So wheneve
         (swap-front-ptr! q :next)
         (swap-front-ptr! q #(assoc % :last nil))))))
 ```
+
+### Exercise 3.24
+
+```clojure
+(defn make-table [same-key?] ;; This is implemented as a n-dimension array
+  (let [local-table (atom nil)]
+    (defn lookup [keys table]
+      (cond (or (nil? table) (empty? table))
+              false
+            (same-key? (first keys) (first (first table)))
+              (if (empty? (rest keys))
+                (second (first table))
+                (recur (rest keys) (second (first table))))
+            :else
+              (recur key (rest table))))
+    (defn insert [keys table value]
+      (cond
+        (empty? keys)
+          value
+        (or (nil? table) (empty? table))
+          (list (list (first keys) (insert (rest keys) nil value)))
+        (same-key? (first keys) (first (first table)))
+          (conj (rest table) (list (first (first table))(insert (rest keys) (second (first table)) value)))
+        :else
+          (conj (insert keys (rest table) value) (first table))))
+  (fn [m]
+      (condp = m
+       'lookup-proc
+         (fn [keys]
+           (lookup (if (list? keys) keys (list keys)) @local-table))
+       'insert-proc!
+         (fn [keys value]
+           (swap! local-table (constantly
+             (insert (if (list? keys) keys (list keys)) @local-table value))))
+       :else
+         (throw (Exception. (str "MAKE-TABLE: procedure not found for " m)))))))
+```
+
+### Exercise 3.25
+
+Implemented in 3.24
+
+### Exercise 3.26
+
+A binary tree resides in another.
+
+### Exercise 3.27
+
+Environment diagram omitted.
+
+The algorithm now turns to O(n+m), where n is the scale of input to the function and m is the time you query.
+
+This is because for every x, f(x) will only be calculated once.
+
+Scheme/Clojure won't work the same, if the recursion part won't call the memoized function.
+
+
